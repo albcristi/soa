@@ -1,0 +1,13 @@
+.navbar-custom {
+    height: 85px;
+}
+
+.cart {
+    margin-top: 0.5vh;
+    margin-right: 5vw;
+    margin-left: 1vw;
+}
+
+.svg:hover {
+    fill: steelblue;
+}

@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  redis:
+    container_name: redis
+    image: 'redis'
+    ports:
+      - '6379:6379'
+    volumes:
+      - cache:/data
+  orders-api:
+    build: orders-api
+    ports:
+      - '8091:8091'
+    environment:
+      - PORT=8091
+      - REDIS_URL=redis://redis:6379
+      - MAILGUN_DOMAIN=someValueHEere
+      - MAILGUN_API_KEY=someKeyCausWhyNot
+      - MAILGUN_EMAIL=verySecretEmailAddress
+    depends_on:
+      - redis
+  products-api:
+    build: products-api
+    ports:
+      - '8092:8092'
+    environment:
+      - PORT=8092
+  shop-api:
+    build: webstore-api
+    ports:
+      - '8090:8090'
+    environment:
+      - PORT=8090
+      - SHOPPING_PRODUCTS_URL=http://products-api:8092
+      - SHOPPING_ORDERS_URL=http://orders-api:8091
+    depends_on:
+      - orders-api
+      - products-api
+  web-store:
+    build: ./webstore
+    ports:
+      - '8080:8080'
+    depends_on:
+      - shopping-cart
+      - shopping-products
+  shopping-cart:
+    build: ./shopping-cart
+    ports:
+      - '8081:8081'
+  shopping-products:
+    build: ./shopping-products
+    ports:
+      - '8082:8082'
+
+volumes:
+  cache:
+    driver: local
