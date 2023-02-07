@@ -96,3 +96,19 @@ The frontend of the application is built using the ReactJS library and is splitt
 An overview over the exposed components is emphasized in the following figure:
 
 ![Frontend Components](fe-details.PNG)
+
+The services are being dockerized and exposed on the following ports:
+- 8080 - `web-store`
+- 8081 - `shopping-cart`
+- 8082 - `shopping-products`
+
+The components also use Bootstrap.
+
+### 4.3 Backend Components
+
+The backend is composed of 3 microservices, all of them are Node+Express applications and are used for managing the existing airplane models and managing on-going orders:
+- `webstore-api` on port 8090
+- `orders-api` on port 8091
+- `orders-api` on port 8092
+
+
