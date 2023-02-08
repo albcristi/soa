@@ -114,13 +114,15 @@ The components also use Bootstrap.
 ### 4.3 Backend Components
 
 The backend is composed of 3 microservices, all of them are Node+Express applications and are used for managing the existing airplane models and managing on-going orders:
-- `webstore-api` on port 8090
+- `shop-api` on port 8090
 - `orders-api` on port 8091
 - `orders-api` on port 8092
 
 An overview over the backend microservices and the communication between them is emphasized in the following figure
 
 ![Backend Microservices](be-diagram.PNG)
+
+As it can be depicted from the figure above, the `shop-api` microservice, acts as a router (SOA pattern), by managing the requests in the following manner: it extracts the relevant data from the request and redirects the request to the microservice that manages the required functionality.
 
 #### Third Party Software: Redis
 
