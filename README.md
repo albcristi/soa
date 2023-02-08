@@ -113,6 +113,13 @@ The backend is composed of 3 microservices, all of them are Node+Express applica
 - `orders-api` on port 8091
 - `orders-api` on port 8092
 
+An overview over the backend microservices and the communication between them is emphasized in the following figure
+
+![Backend Microservices](be-diagram.PNG)
+
+
+
+
 
 
 
