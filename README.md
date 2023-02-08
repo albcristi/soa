@@ -128,6 +128,8 @@ Once a customer placed an order, our software system is integrated with Mailgun 
 ![Mailgun Dashboard](mailgun-dashboard.PNG)
 
 
+Bellow we attached an image with the confirmation of an order made by a customer
 
+![Order Confirmation Email](email.PNG)
 
 
