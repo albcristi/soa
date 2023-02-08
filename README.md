@@ -117,7 +117,15 @@ An overview over the backend microservices and the communication between them is
 
 ![Backend Microservices](be-diagram.PNG)
 
+#### Third Party Software: Redis
 
+We use Redis as a 3rd party service in order to enable the user with the possibility of storing an ogoing order based on the address from which a customer is accessing our portal. In this repsect, without the need of logging in, the user can easily have its order data saved so that a order that has been started now can be finished later, without the need of re-adding to cart the items previously added to cart.
+
+#### Third Party Software: Mailgun
+
+Once a customer placed an order, our software system is integrated with Mailgun for mail sending. We use Mailgun as it provides relevant information regarding the emails that have been sent. For instance, as it is presented in the bellow figure, we can see data regarding how many emails have been sent, or if there were any failures. 
+
+![Mailgun Dashboard](mailgun-dashboard.PNG)
 
 
 
