@@ -85,6 +85,11 @@ As you can see above, we defined 7 services:
 - 3 back-end related services
 - 1 3rd party service: Redis
 
+
+Bellow we also present a diagram presenting the containers, together with the inter-container dependencies:
+
+![Docker Container Map](service-map.PNG)
+
 In order to assure some data persistency for redis, we also added a volume (found under the name `cahce`) which will exist for as long as the created stack via the `docker-compose up` command exists.
 
 ### 4.1 System architecture overview - C4 Model
