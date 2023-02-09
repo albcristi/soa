@@ -85,6 +85,7 @@ As you can see above, we defined 7 services:
 - 3 back-end related services
 - 1 3rd party service: Redis
 
+Communication between the services is made via TCP using the docker created network for the stack. The ceated stack will have assigned a default network on the run of the `docker-compose up` command, which will persist for as long as we do not perform any prune type of commands. Each service will be available through the network at the specified port from the port mappings (that will be inside the docker created network, where we can access a service based on its name, but also to the outside in the hosting machine)
 
 Bellow we also present a diagram presenting the containers, together with the inter-container dependencies:
 
@@ -99,6 +100,8 @@ In order to assure some data persistency for redis, we also added a volume (foun
 ### 4.2 Frontend Components
 
 The frontend of the application is built using the ReactJS library and is splitted in multiple microservices (`web-store`, `shopping-cart` and `shopping-products`) which are built using the micro-frontends pattern. We expose to the client one main entry point which is the `web-store` microservice, which further reuses components from `shopping-cart` and  `shopping-products`. In order to enable the usage of microfrontends, we use Webpack Module Federation Plugin. In this respect, each frontend project has a `.babelrc` configuration file and a `webpack.config.js` configuration file. In the `webpack.config.js` file we define what components we want to expose from the current project or what components we want to re-use from other projects. 
+
+As it can be deduced from the used technologies, our frontend follows a Single Page Applications (SPA) architercure combined with the use of micro-frontends. As for the general architectural structure, since we use micro-frontends we follow the following approach: the `web-store` microservice acts as the host application which further takes and integrates the components provided from the two micro-frontend components `shopping-products` (which handles logic for products) and `shopping-cart` (which manages logic for order). By using micro-frontends we can split the application logic in smaller chunks and enhance reusability of code, besides we can speed up the software development process by following this architectural pattern.
 
 An overview over the exposed components is emphasized in the following figure:
 
@@ -122,11 +125,13 @@ An overview over the backend microservices and the communication between them is
 
 ![Backend Microservices](be-diagram.PNG)
 
-As it can be depicted from the figure above, the `shop-api` microservice, acts as a router (SOA pattern), by managing the requests in the following manner: it extracts the relevant data from the request and redirects the request to the microservice that manages the required functionality.
+Our backend provided microservices follow an approach where the `shop-api` acts as the single entry point which assures the communication between the client and our provided REST services (`products-api` and `orders-api`). In this respect, `shop-api` is build following the logic of building an API Gateway pattern, handling the client requests and redirecting them to the suitable microservice that handles the requested action (we can see this microservice also as a router). Just like the other two microservices from our backend components, `shop-api` is a REST service which takes a request from the client, extracts the relevant data and further sends a request to the REST service which handles the requested action.
 
 #### Third Party Software: Redis
 
 We use Redis as a 3rd party service in order to enable the user with the possibility of storing an ogoing order based on the address from which a customer is accessing our portal. In this repsect, without the need of logging in, the user can easily have its order data saved so that a order that has been started now can be finished later, without the need of re-adding to cart the items previously added to cart.
+
+At a networking level, clients use RESP (Redis serialization protocol) for communicating with Redis. Although it is not a rule, RESP uses the TCP protocol for communication as seen from the Network Layer level. The implemented model follows a Request-Response model, which can be translated as: once a client sends a request to Redis, a response for that request will be eventually send back from Redis.
 
 #### Third Party Software: Mailgun
 
