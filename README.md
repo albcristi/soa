@@ -99,9 +99,11 @@ In order to assure some data persistency for redis, we also added a volume (foun
 
 ### 4.2 Frontend Components
 
-The frontend of the application is built using the ReactJS library and is splitted in multiple microservices (`web-store`, `shopping-cart` and `shopping-products`) which are built using the micro-frontends pattern. We expose to the client one main entry point which is the `web-store` microservice, which further reuses components from `shopping-cart` and  `shopping-products`. In order to enable the usage of microfrontends, we use Webpack Module Federation Plugin. In this respect, each frontend project has a `.babelrc` configuration file and a `webpack.config.js` configuration file. In the `webpack.config.js` file we define what components we want to expose from the current project or what components we want to re-use from other projects. 
+The frontend of the application is built using the ReactJS library and is splitted in multiple microservices (`web-store`, `shopping-cart` and `shopping-products`) which are built using the micro-frontends pattern. We expose to the client one main entry point which is the `web-store` microservice, which further reuses components from `shopping-cart` and  `shopping-products`. In order to enable the usage of microfrontends, we use Webpack Module Federation Plugin. In this respect, each frontend project has a `.babelrc` configuration file and a `webpack.config.js` configuration file. In the `webpack.config.js` file we define what components we want to expose from the current project or what components we want to re-use from other project. 
 
 As it can be deduced from the used technologies, our frontend follows a Single Page Applications (SPA) architercure combined with the use of micro-frontends. As for the general architectural structure, since we use micro-frontends we follow the following approach: the `web-store` microservice acts as the host application which further takes and integrates the components provided from the two micro-frontend components `shopping-products` (which handles logic for products) and `shopping-cart` (which manages logic for order). By using micro-frontends we can split the application logic in smaller chunks and enhance reusability of code, besides we can speed up the software development process by following this architectural pattern.
+
+The application is built using a functional style, making use also of some basic React hooks, such as `useState` and `useEffect` hooks. To further enhance the propagation of changes in the exposed data, we use event listeners. As how this logic is implemneted: the component which changes an object will emit an event to inform other components that an update has been made. The components which use the modified data, have an event listener for that specific event, which gets triggered every time the event has been emitted and have an associated function which handles the logic for such an event. As for styling the components, we used minimal CSS and the Boostrap library.
 
 An overview over the exposed components is emphasized in the following figure:
 
@@ -112,7 +114,6 @@ The services are being dockerized and exposed on the following ports:
 - 8081 - `shopping-cart`
 - 8082 - `shopping-products`
 
-The components also use Bootstrap.
 
 ### 4.3 Backend Components
 
